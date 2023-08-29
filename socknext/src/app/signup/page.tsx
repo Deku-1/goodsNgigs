@@ -1,15 +1,19 @@
-import "./logink.css"
-import icon8 from '../../photos/googlelogo.png'
+"use client"
+import Head from 'next/head';
+
+import "../../../components/signup/logink.css"
+import icon8 from '../../../components/photos/googlelogo.png'
 import Grid from '@mui/material/Grid';
 import { Card, ButtonBase} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import imageic from '../../photos/My project.png'
-import { useNavigate } from 'react-router-dom'; 
+import imageic from '../../../components/photos/My project.png'
+import { useRouter } from 'next/navigation';
 import { useState } from "react"
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
-import { auth } from "../../../utils/firebase";
-import Icons from "./icons";
+import { auth } from "../../../components/utils/firebase";
+import Icons from "../../../components/signup/icons";
+import Image from "next/image";
 function Cardsignup(){
   //sign in with googleprovider
   const googleprovider= new GoogleAuthProvider()
@@ -18,16 +22,16 @@ function Cardsignup(){
           const result= await signInWithPopup(auth,googleprovider)
           console.log(result.user)
           console.log("hi sexy")
-          navigate("/homepage");
+          navigate.push("/homepage");
 
     } catch (error) {
       console.log(error)
     }
     
   }
-  const navigate=useNavigate();
+  const navigate=useRouter();
   const gotosignin=()=>{
-    navigate('/signin')
+    navigate.push('/signin')
   }
   const[username,setusername]=useState<string>('');
   const[password,setpassword]=useState<string>('');
@@ -41,7 +45,7 @@ function Cardsignup(){
     const data = await response.json();
     if (data.token) {
         localStorage.setItem("token", data.token)
-       navigate("/homepage");
+       navigate.push("/homepage");
     } else {
         alert("invalid credentials");
     }
@@ -52,17 +56,19 @@ function Cardsignup(){
 
 
     return(<>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Borel&family=Caprasimo&family=Lato&family=REM&display=swap" rel="stylesheet" /> 
     <div style={{ height: "80vh", backgroundColor: "#0E4097", position: 'relative', marginTop: 70, marginLeft: 110, marginRight: 110, zIndex: 0 }}>
   
   </div>
  
   <div style={{ zIndex: 2, position: 'absolute', top: '4%', left: '55%', }}>
   <Card variant="outlined" style={{ height: 650, display: "flex", alignItems: "center", flexDirection: "column", width: 400, borderRadius: 0, backgroundColor: " #e6ffff" }}>
-        <span className="fontify" style={{ fontSize: 45, marginTop: 12, color: "#0E4097" }}>Sign Up</span>
-        <img src={imageic} alt="my image" style={{ height: 100, width: 200, marginTop: -20,paddingBottom:10  }} />
+        <span style={{ fontFamily:'Borel, cursive',fontSize: 45, marginTop: 12, color: "#0E4097" }}>Sign Up</span>
+        <Image src={imageic} alt="my image" style={{ height: 100, width: 200, marginTop: -20,paddingBottom:10  }} />
   {/* google */}
   <ButtonBase onClick={googlelogin} component={Card} elevation={2} sx={{ width:'80%', height:45}}>
-<img src={icon8} alt="lund" style={{height:30,}}/>
+<Image src={icon8} alt="lund" height={30} />
 <span style={{ fontFamily: 'REM, sans-serif', fontSize: 15, color:"#000080" ,paddingLeft:10}}>Sign up with Google</span>
 </ButtonBase>
 
@@ -79,7 +85,7 @@ function Cardsignup(){
 
           </Grid>
 </Grid>
-        <TextField id="standard-basic" value={username} onChange={(x)=>setusername(x.target.value)} label="Username" variant="standard" sx={{ width: '80%', marginTop: 1 }} InputLabelProps={{
+        <TextField id="standard-basic" value={username} onChange={(event:React.ChangeEvent<HTMLInputElement>)=>setusername(event.target.value)} label="Username" variant="standard" sx={{ width: '80%', marginTop: 1 }} InputLabelProps={{
           style: {
             color: 'blue', // Change the color of the label text
             fontSize: '18px', // Change the font size of the label text
@@ -88,7 +94,7 @@ function Cardsignup(){
           },
         }}
         />
-        <TextField id="standard-basic"  label="Email" value={email} onChange={(x)=>setemail(x.target.value)} variant="standard" sx={{ width: '80%', marginTop: 1 }} InputLabelProps={{
+        <TextField id="standard-basic"  label="Email" value={email} onChange={(event:React.ChangeEvent<HTMLInputElement>)=>setemail(event.target.value)} variant="standard" sx={{ width: '80%', marginTop: 1 }} InputLabelProps={{
           style: {
             color: 'blue', // Change the color of the label text
             fontSize: '18px', // Change the font size of the label text
@@ -96,7 +102,7 @@ function Cardsignup(){
             // Add any other custom styles for the label here
           },
         }} />
-         <TextField id="standard-basic" type="password" value={password} onChange={(x)=>setpassword(x.target.value)} label="Password" variant="standard" sx={{ width: '80%', marginTop: 1 }} InputLabelProps={{
+         <TextField id="standard-basic" type="password" value={password} onChange={(event:React.ChangeEvent<HTMLInputElement>)=>setpassword(event.target.value)} label="Password" variant="standard" sx={{ width: '80%', marginTop: 1 }} InputLabelProps={{
           style: {
             color: 'blue', // Change the color of the label text
             fontSize: '18px', // Change the font size of the label text
